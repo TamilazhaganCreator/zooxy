@@ -1,0 +1,93 @@
+<div class="full-page">
+  <div>
+    <div class="box pad-1 scrollbar" *ngFor="let listObject of list">
+      <div>
+        {{listObject.headerName}}
+        <div dragula="RIGHT" [(dragulaModel)]="listObject.cards" class="lists">
+          <div *ngFor="let card of listObject.cards" 
+            (click)="openModal(listObject.id,card)" class="card detail-card bor-rad-4">
+            {{card.name}}
+            <div class="comment-count" *ngIf="card.comments.length > 0">
+              <div class="valign-wrapper">
+                <i class="material-icons comment-icon">comment</i>{{card.comments.length}}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row bottom-zero" *ngIf="showDetailBox[listObject.id]">
+          <div class="input-field col s12" style="margin-top:1rem;padding:0">
+            <textarea id="card" placeholder="Enter the title" class="materialize-textarea bottom-zero"
+              [(ngModel)]="newDetailName"></textarea>
+          </div>
+          <div class="valign-wrapper col s12" style="padding: 0">
+            <button class="btn" (click)="addDetails(listObject.id)">Add Card</button>
+            <i class="material-icons" (click)="showDetailBox[listObject.id] = false"
+              style="cursor:pointer;margin-left: 1rem;">close</i>
+          </div>
+        </div>
+        <div class="valign-wrapper pointer addCard" *ngIf="!showDetailBox[listObject.id]"
+          (click)="closeOtherDetailBox(listObject.id)">
+          <i class="material-icons">add</i>Add Card
+        </div>
+      </div>
+    </div>
+    <div class="box">
+      <div class="valign-wrapper pointer addList" (click)="showAddBox = true" *ngIf="!showAddBox">
+        <i class="material-icons" style="padding-right: 1%">add</i>Add List
+      </div>
+      <div class="row" *ngIf="showAddBox" style="padding:.75rem">
+        <div class="input-field col s12">
+          <input class="bottom-zero" placeholder="Enter the list name" autocomplete="off" id="list" type="text"
+            [(ngModel)]="newListHeader">
+        </div>
+        <div class="valign-wrapper" style="padding-left:.75rem">
+          <button class="btn" (click)="addHeader()">Add List</button>
+          <i class="material-icons" (click)="showAddBox = false" style="cursor:pointer;margin-left: 1rem;">close</i>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="modal1" class="modal modal-fixed-footer"
+    [materializeActions]="taskModalActions" materialize="modal">
+    <div class="modal-content scrollbar">
+      <div class="row bottom-zero">
+        <div class="col s1">
+          <i class="material-icons light-icon">card_giftcard</i>
+        </div>
+        <div class="col s11">
+          <div style="font-size: 1.25rem;word-break: break-word;color:#172b4d">
+            {{modalList.cards[0] ? modalList.cards[0].name:''}}
+            <i class="material-icons modal-action modal-close" style="float:right">close</i>
+          </div>
+        </div>
+      </div>
+      <div class="row  bottom-zero">
+        <div class="col s11 offset-s1">
+          <div style="font-size: .8rem;color:#6b778c">in {{modalList.headerName}}</div>
+        </div>
+      </div>
+      <div class="row valign-wrapper" style="margin-top:1rem;">
+        <div class="col s1">
+          <i class="material-icons light-icon">comment</i>
+        </div>
+        <div class="input-field col s11">
+          <textarea id="card" [(ngModel)]="comment" placeholder="Enter comment"
+            class="materialize-textarea bottom-zero"></textarea>
+        </div>
+        <button class="btn" (click)="saveComment()">Save</button>
+      </div>
+      <div class="row bottom-zero">
+        <div class="col s1">
+          <i class="material-icons light-icon">local_activity</i>
+        </div>
+        <div class="col s11">Activity</div>
+      </div>
+      <div *ngIf="modalList.cards[0]" class="row mar-bot-8" >
+        <div *ngFor="let comment of modalList.cards[0].comments" style="padding: 1rem;" class="card col s11 offset-s1">
+          <div class="time">{{comment.time}}</div>
+          <div class="text-light">{{comment.name}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
