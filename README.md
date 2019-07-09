@@ -2,6 +2,11 @@
 
 Its a project planner, we can handle our task very easily
 
+## Tech Stack 
+- Angular 7
+- Materializecss
+- Dragula (drag and drop) https://valor-software.com/ng2-dragula/
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
